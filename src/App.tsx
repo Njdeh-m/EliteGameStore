@@ -1,4 +1,12 @@
-import { Flex, Grid, GridItem, HStack, Show, Box } from "@chakra-ui/react";
+import {
+  Flex,
+  Grid,
+  GridItem,
+  HStack,
+  Show,
+  Box,
+  Hide,
+} from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import GameGrid from "./components/GameGrid";
 import GameGenreList from "./components/GameGenreList";
@@ -8,6 +16,7 @@ import PlatformSelector from "./components/PlatformSelector";
 import { Platform } from "./hooks/Games";
 import SortSelector from "./components/SortSelector";
 import GameHeading from "./components/GameHeading";
+import SideBar from "./components/SideBar";
 
 export interface GameQuery {
   genre: Genres | null;
@@ -18,6 +27,7 @@ export interface GameQuery {
 
 function App() {
   const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
+  const [sideBarMenu, setSideBarMenu] = useState(false);
 
   return (
     <Grid
@@ -31,15 +41,29 @@ function App() {
       }}
     >
       <GridItem area="nav">
-        <NavBar
-          onSearch={(searchText) => setGameQuery({ ...gameQuery, searchText })}
-        />
+        <HStack paddingRight={4} justifyContent="space-between">
+          <NavBar
+            onSearch={(searchText) =>
+              setGameQuery({ ...gameQuery, searchText })
+            }
+          />
+
+          <Hide above="lg">
+            <SideBar
+              gameQuery={gameQuery}
+              setGameQuery={(e) => setGameQuery(e)}
+              setSideBarMenu={(e) => setSideBarMenu(e)}
+              sideBarMenu={sideBarMenu}
+            />
+          </Hide>
+        </HStack>
       </GridItem>
       <Show above="lg">
         <GridItem area="aside" paddingX={5}>
           <GameGenreList
             selectedGenre={gameQuery.genre}
             onSelectedGenre={(genre) => setGameQuery({ ...gameQuery, genre })}
+            setSideBarMenu={(e) => setSideBarMenu(e)}
           />
         </GridItem>
       </Show>
