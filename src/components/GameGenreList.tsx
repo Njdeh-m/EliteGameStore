@@ -16,9 +16,14 @@ import getCroopedImageUrl from "../services/image-url";
 interface Props {
   onSelectedGenre: (genre: Genres) => void;
   selectedGenre: Genres | null;
+  setSideBarMenu: (okay: boolean) => void;
 }
 
-const GameGenreList = ({ selectedGenre, onSelectedGenre }: Props) => {
+const GameGenreList = ({
+  selectedGenre,
+  onSelectedGenre,
+  setSideBarMenu,
+}: Props) => {
   const { data, isLoading, error } = useGenres();
   if (error) return null;
 
@@ -42,7 +47,10 @@ const GameGenreList = ({ selectedGenre, onSelectedGenre }: Props) => {
                 whiteSpace="normal"
                 textAlign="left"
                 fontWeight={e.id == selectedGenre?.id ? "bold" : "normal"}
-                onClick={() => onSelectedGenre(e)}
+                onClick={() => {
+                  onSelectedGenre(e);
+                  setSideBarMenu(false);
+                }}
                 variant="link"
                 fontSize="large"
               >
