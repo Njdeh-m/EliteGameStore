@@ -50,6 +50,7 @@ const GameGenreList = ({
                 onClick={() => {
                   onSelectedGenre(e);
                   setSideBarMenu(false);
+                  document.body.style.overflow = 'visible'
                 }}
                 variant="link"
                 fontSize="large"
